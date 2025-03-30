@@ -66,3 +66,17 @@ header {
 #searchBtn:hover, #prevBtn:hover, #nextBtn:hover, #resetBtn:hover {
   opacity: 0.8;
 }
+
+.pokemon{
+  width: 17%;
+  background-color: white;
+}
+
+.pokemon img{
+  width: 100%;
+}
+
+.name{
+  text-align: center;
+  text-transform: capitalize;
+}
