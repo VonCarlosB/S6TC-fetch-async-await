@@ -30,6 +30,7 @@ const getPokemon = async (pokemonURL) => {
         return data
     } catch(err){
         console.log(err)
+        return undefined
     }
 }
 
@@ -41,16 +42,20 @@ function getInfo(pokemons) {
     })
     Promise.all(promises).then((values) => {
         values.forEach((pokemon) => {
-            text += `
+            text += createDiv(pokemon)
+        })
+    }).then(() => {
+        app.innerHTML = text
+    })
+}
+
+function createDiv(pokemon) {
+    return `
             <div class="pokemon">
                 <img src="${pokemon.sprites.other.home.front_default}">
                 <h4 class="name">#${pokemon.id} ${pokemon.name}</h4>
             </div>
             `
-        })
-    }).then(() => {
-        app.innerHTML = text
-    })
 }
 
 prev.addEventListener('click', () => {
@@ -69,8 +74,16 @@ next.addEventListener('click', () => {
 })
 
 reset.addEventListener('click', () => {
-    offset = 0
+    searchInput.value = ''
     getAll(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`)
+})
+
+search.addEventListener('click', () => {
+    getPokemon(`https://pokeapi.co/api/v2/pokemon/${searchInput.value}/`).then((data) =>{
+        app.innerHTML = createDiv(data)
+    }).catch((err) => {
+        app.innerHTML = `<div id="notFound">Pokemon no encontrado</div>`
+    })
 })
 
 getAll(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`)

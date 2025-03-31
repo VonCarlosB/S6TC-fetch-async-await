@@ -22,8 +22,6 @@ header {
   justify-content: center;
   flex-wrap: wrap;
   gap: 20px;
-
-  padding: 20px;
 }
 
 .pagination {
@@ -68,15 +66,29 @@ header {
 }
 
 .pokemon{
-  width: 17%;
+  width: 16%;
   background-color: white;
+  cursor: pointer;
 }
 
 .pokemon img{
   width: 100%;
 }
 
+.pokemon:hover img{
+  transform: scale(1.1);
+}
+
 .name{
   text-align: center;
   text-transform: capitalize;
+}
+
+#notFound{
+  width: 100%;
+  height: 500px;
+  font-size: xx-large;
+  font-weight: bold;
+  text-align: center;
+  align-content: center;
 }
