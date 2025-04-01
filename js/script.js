@@ -6,6 +6,11 @@ const search = document.getElementById('searchBtn')
 const prev = document.getElementById('prevBtn')
 const next = document.getElementById('nextBtn')
 const reset = document.getElementById('resetBtn')
+const saved = document.getElementById('saved')
+
+if(localStorage.getItem('savedPokemon') == null){
+    localStorage.setItem('savedPokemon', '[]')
+}
 
 const getAll = async (url) => {
     try{
@@ -51,11 +56,28 @@ function getInfo(pokemons) {
 
 function createDiv(pokemon) {
     return `
-            <div class="pokemon">
+            <div class="pokemon" onclick="savePokemon('${pokemon.name}')">
                 <img src="${pokemon.sprites.other.home.front_default}">
                 <h4 class="name">#${pokemon.id} ${pokemon.name}</h4>
             </div>
             `
+}
+
+function savePokemon(name) {
+    let pokemonList = JSON.parse(localStorage.getItem('savedPokemon'))
+    getPokemon(`https://pokeapi.co/api/v2/pokemon/${name}/`).then((data) => {
+        let isOnList = false
+        pokemonList.forEach((element) => {
+            if(element.name === data.name){
+                isOnList = true
+            }
+        })
+        if(!isOnList){
+            pokemonList.push(data)
+            pokemonList.sort((a, b) => a.id > b.id)
+            localStorage.setItem('savedPokemon', JSON.stringify(pokemonList))
+        }
+    })
 }
 
 prev.addEventListener('click', () => {
@@ -74,6 +96,7 @@ next.addEventListener('click', () => {
 })
 
 reset.addEventListener('click', () => {
+    localStorage.setItem('savedPokemon', '[]')
     searchInput.value = ''
     getAll(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`)
 })
@@ -87,3 +110,12 @@ search.addEventListener('click', () => {
 })
 
 getAll(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`)
+
+saved.addEventListener('click', () => {
+    let pokemons = JSON.parse(localStorage.getItem('savedPokemon'))
+    let text = ''
+    pokemons.forEach((pokemon) => {
+        text += createDiv(pokemon)
+    })
+    app.innerHTML = text
+})

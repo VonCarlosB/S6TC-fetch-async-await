@@ -43,7 +43,7 @@ header {
   border-radius: 4px;
 }
 
-#searchBtn, #prevBtn, #nextBtn, #resetBtn {
+#searchBtn, #prevBtn, #nextBtn, #resetBtn, #saved {
   margin: 10px 0;
   padding: 10px;
   border: none;
@@ -61,7 +61,12 @@ header {
   color: white;
 }
 
-#searchBtn:hover, #prevBtn:hover, #nextBtn:hover, #resetBtn:hover {
+#saved{
+  background-color: #ff7575;
+  color: white;
+}
+
+#searchBtn:hover, #prevBtn:hover, #nextBtn:hover, #resetBtn:hover, #saved:hover {
   opacity: 0.8;
 }
 
